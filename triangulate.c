@@ -1328,7 +1328,6 @@ int find_projection_3x4_nonlinear_pano(int num_pts, v3_t *points, v2_t *projs,
 		lmdif_driver(projection_residual_pano, num_eqns, num_vars, x, 1.0e-5);
 
 		memcpy(Pout, x, sizeof(double) * 12);
-		//Pout[11] = 1.0;
 
 		return 0;
 	}
@@ -1590,6 +1589,7 @@ int find_projection_3x4_ransac_pano(int num_pts, v3_t *points, v3_t *projs,
 
 		/* Polish the result */
 		if (max_inliers >= 6) 
+		//if(0)
 		{
 			int num_inliers_polished = 0;
 							

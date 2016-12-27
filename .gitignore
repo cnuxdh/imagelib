@@ -1,0 +1,6 @@
+*.obj
+*.log
+*.tlog
+Debug/vc100.pdb
+Debug/imagelib.lastbuildstate
+*.cache
