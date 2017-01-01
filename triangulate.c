@@ -1306,7 +1306,7 @@ static void projection_residual(const int *m, const int *n, double *x,
 
 /* Solve for a 3x4 projection matrix, given a set of 3D points and 2D
  * projections using non-linear optimization */
-int find_projection_3x4_nonlinear_pano(int num_pts, v3_t *points, v2_t *projs, 
+int find_projection_3x4_nonlinear_pano(int num_pts, v3_t *points, v3_t *projs, 
 				  double *Pin, double *Pout) 
 {
 	if (num_pts < 6) 
