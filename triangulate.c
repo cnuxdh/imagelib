@@ -499,6 +499,7 @@ int find_extrinsics_essential(double *E, v2_t p1, v2_t p2,
     return 1;
 }
 
+#define MINIMAL_VALUE 0.000001
 
 
 /* Given an E matrix and a point correspondence, find R and t */
@@ -580,15 +581,15 @@ int find_extrinsics_essential_multipt_pano(double *E, int n,
 	rpt_norm = (v2_t*)malloc(n*sizeof(v2_t));
 	for(i=0; i<n; i++)
 	{
-		lpt_norm[i].p[0] = p1[i].p[0] / p1[i].p[2];
-		lpt_norm[i].p[1] = p1[i].p[1] / p1[i].p[2];
+		lpt_norm[i].p[0] = p1[i].p[0] / (p1[i].p[2]+MINIMAL_VALUE);
+		lpt_norm[i].p[1] = p1[i].p[1] / (p1[i].p[2]+MINIMAL_VALUE);
 		
-		rpt_norm[i].p[0] = p2[i].p[0] / p2[i].p[2];
-		rpt_norm[i].p[1] = p2[i].p[1] / p2[i].p[2];
+		rpt_norm[i].p[0] = p2[i].p[0] / (p2[i].p[2]+MINIMAL_VALUE);
+		rpt_norm[i].p[1] = p2[i].p[1] / (p2[i].p[2]+MINIMAL_VALUE);
 	}
 		
 	//Ra + tu
-	printf(" Ra + tu \n ");
+	//printf(" Ra + tu \n ");
 	for(i=0; i<n; i++)
 	{
 		Q = triangulate(lpt_norm[i], rpt_norm[i], I, t0, Ra, tu, &error);
@@ -612,7 +613,7 @@ int find_extrinsics_essential_multipt_pano(double *E, int n,
 		}
 	}
 
-	printf(" Ra - tu \n ");
+	//printf(" Ra - tu \n ");
 	for(i=0; i<n; i++)
 	{
 		Q = triangulate(lpt_norm[i], rpt_norm[i], I, t0, Ra, negTu, &error);
@@ -639,7 +640,7 @@ int find_extrinsics_essential_multipt_pano(double *E, int n,
 	}
 
 
-	printf(" Rb + tu \n ");
+	//printf(" Rb + tu \n ");
 	for(i=0; i<n; i++)
 	{
 		Q = triangulate(lpt_norm[i], rpt_norm[i], I, t0, Rb, tu, &error);
@@ -666,7 +667,7 @@ int find_extrinsics_essential_multipt_pano(double *E, int n,
 	}
 
 
-	printf(" Rb - tu \n ");
+	//printf(" Rb - tu \n ");
 	for(i=0; i<n; i++)
 	{
 		Q = triangulate(lpt_norm[i], rpt_norm[i], I, t0, Rb, negTu, &error);
@@ -692,10 +693,12 @@ int find_extrinsics_essential_multipt_pano(double *E, int n,
 		}
 	}
 
+	/*
 	printf(" %d %d \n", c1_pos, c1_neg);
 	printf(" %d %d \n", c2_pos, c2_neg);
 	printf(" %d %d \n", c3_pos, c3_neg);
 	printf(" %d %d \n", c4_pos, c4_neg);
+	*/
 
 	index = 0;
 	for(i=0; i<4; i++)
